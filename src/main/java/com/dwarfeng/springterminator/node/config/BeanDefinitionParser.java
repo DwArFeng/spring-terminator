@@ -11,7 +11,7 @@ import org.w3c.dom.Element;
  * @author DwArFeng
  * @since 1.0.0
  */
-public class TerminalBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+public class BeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
     @Override
     protected String getBeanClassName(Element element) {
