@@ -15,6 +15,12 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Terminator 的实现。
+ *
+ * @author DwArFeng
+ * @since 1.0.0
+ */
 public class TerminatorImpl implements Terminator, ApplicationContextAware, ApplicationListener<ContextClosedEvent> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TerminatorImpl.class);
@@ -42,6 +48,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
             // 当程序设置延迟时，进行延时。
             if (this.preDelay > 0) {
                 try {
+                    LOGGER.info("Terminator设置了前置延时, 等待 " + preDelay + " 毫秒...");
                     Thread.sleep(this.preDelay);
                 } catch (InterruptedException ignored) {
                 }
@@ -67,6 +74,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
             // 当程序设置延迟时，进行延时。
             if (this.postDelay > 0) {
                 try {
+                    LOGGER.info("Terminator设置了后置延时, 等待 " + preDelay + " 毫秒...");
                     Thread.sleep(this.postDelay);
                 } catch (InterruptedException ignored) {
                 }

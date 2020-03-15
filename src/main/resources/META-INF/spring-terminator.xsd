@@ -18,10 +18,10 @@
         <xsd:attribute name="id" type="xsd:token" default="terminator">
             <xsd:annotation>
                 <xsd:documentation>
-                    <![CDATA[ Defines the delay time before terminating. ]]></xsd:documentation>
+                    <![CDATA[ Defines the terminator's bean name. ]]></xsd:documentation>
                 <xsd:appinfo>
                     <tool:annotation>
-                        <tool:expected-type type="java.lang.Long"/>
+                        <tool:expected-type type="java.lang.String"/>
                     </tool:annotation>
                 </xsd:appinfo>
             </xsd:annotation>

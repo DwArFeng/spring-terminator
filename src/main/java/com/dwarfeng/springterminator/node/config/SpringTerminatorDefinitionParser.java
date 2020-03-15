@@ -8,10 +8,12 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
 /**
+ * Terminator 的 BeanDefinitionParser。
+ *
  * @author DwArFeng
  * @since 1.0.0
  */
-public class BeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+public class SpringTerminatorDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
     @Override
     protected String getBeanClassName(Element element) {
@@ -20,21 +22,16 @@ public class BeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
     @Override
     protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
-        long preDelay = -1L;
-        long postDelay = -1L;
         try {
             if (element.hasAttribute("pre-delay")) {
-                preDelay = Long.parseLong(element.getAttribute("pre-delay"));
+                builder.addPropertyValue("preDelay", element.getAttribute("pre-delay"));
             }
             if (element.hasAttribute("post-delay")) {
-                postDelay = Long.parseLong(element.getAttribute("post-delay"));
+                builder.addPropertyValue("postDelay", element.getAttribute("post-delay"));
             }
         } catch (Exception e) {
             parserContext.getReaderContext().error("转换数字时出现异常", e);
         }
-
-        builder.addPropertyValue("preDelay", preDelay);
-        builder.addPropertyValue("postDelay", postDelay);
 
         builder.setScope(BeanDefinition.SCOPE_SINGLETON);
         builder.setLazyInit(false);

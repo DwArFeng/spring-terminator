@@ -8,10 +8,10 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
  * @author DwArFeng
  * @since 1.0.0
  */
-public class BeanNamespaceHandler extends NamespaceHandlerSupport {
+public class SpringTerminatorNamespaceHandler extends NamespaceHandlerSupport {
 
     @Override
     public void init() {
-        registerBeanDefinitionParser("bean", new BeanDefinitionParser());
+        registerBeanDefinitionParser("bean", new SpringTerminatorDefinitionParser());
     }
 }
