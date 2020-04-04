@@ -1,10 +1,10 @@
 # ChangeLog
 
-### Release_1.0.3_20200405_build_A
+### Release_1.0.3_20200404_build_A
 
 #### 功能构建
 
-- (无)
+- 添加方法com.dwarfeng.springterminator.sdk.util.ApplicationUtil.launch(java.lang.String...)
 
 #### Bug修复
 

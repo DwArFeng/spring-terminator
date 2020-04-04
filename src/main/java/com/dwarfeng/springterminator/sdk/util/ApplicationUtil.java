@@ -24,6 +24,20 @@ public class ApplicationUtil {
         System.exit(terminator.getExitCode());
     }
 
+    /**
+     * 启动程序。
+     *
+     * @param configLocations 配置文件的地址组成的数组。
+     * @since 1.0.3
+     */
+    public static void launch(String... configLocations) {
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);
+        ctx.registerShutdownHook();
+        ctx.start();
+        Terminator terminator = ctx.getBean(Terminator.class);
+        System.exit(terminator.getExitCode());
+    }
+
     private ApplicationUtil() {
         throw new IllegalStateException("禁止外部实例化");
     }
