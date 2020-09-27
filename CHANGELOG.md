@@ -5,6 +5,8 @@
 #### 功能构建
 
 - 为 Terminator 增加重启功能。
+- 更新 ApplicationUtil，使其支持重启功能。
+- 为 ApplicationUtil 添加启动后用于后续初始化的消费者支持。
 
 #### Bug修复
 
