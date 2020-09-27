@@ -33,10 +33,16 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
     private final Condition condition = lock.newCondition();
     private boolean runningFlag = true;
     private int exitCode = 0;
+    private boolean restartFlag = false;
 
     @Override
     public void exit() {
         exit(0);
+    }
+
+    @Override
+    public void exitAndRestart() {
+        exitAndRestart(0);
     }
 
     @Override
@@ -45,20 +51,46 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
 
         lock.lock();
         try {
-            // 当程序设置延迟时，进行延时。
-            if (this.preDelay > 0) {
-                try {
-                    LOGGER.info("Terminator设置了前置延时, 等待 " + preDelay + " 毫秒...");
-                    Thread.sleep(this.preDelay);
-                } catch (InterruptedException ignored) {
-                }
-            }
-
-            this.exitCode = exitCode;
-            applicationContext.stop();
-            applicationContext.close();
+            internalExit(exitCode, false);
         } finally {
             lock.unlock();
+        }
+    }
+
+    @Override
+    public void exitAndRestart(int exitCode) {
+        LOGGER.info("程序退出并重启, exitCode = " + exitCode);
+
+        lock.lock();
+        try {
+            internalExit(exitCode, true);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void internalExit(int exitCode, boolean restartFlag) {
+        // 当程序设置延迟时，进行延时。
+        if (this.preDelay > 0) {
+            try {
+                LOGGER.info("Terminator设置了前置延时, 等待 " + preDelay + " 毫秒...");
+                Thread.sleep(this.preDelay);
+            } catch (InterruptedException ignored) {
+            }
+        }
+
+        this.exitCode = exitCode;
+        this.restartFlag = restartFlag;
+        applicationContext.stop();
+        applicationContext.close();
+
+        // 当程序设置延迟时，进行延时。
+        if (this.postDelay > 0) {
+            try {
+                LOGGER.info("Terminator设置了后置延时, 等待 " + postDelay + " 毫秒...");
+                Thread.sleep(this.postDelay);
+            } catch (InterruptedException ignored) {
+            }
         }
     }
 
@@ -71,17 +103,24 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
                 condition.awaitUninterruptibly();
             }
 
-            // 当程序设置延迟时，进行延时。
-            if (this.postDelay > 0) {
-                try {
-                    LOGGER.info("Terminator设置了后置延时, 等待 " + preDelay + " 毫秒...");
-                    Thread.sleep(this.postDelay);
-                } catch (InterruptedException ignored) {
-                }
-            }
-
             // 返回最终的退出代码。
             return this.exitCode;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public boolean getRestartFlag() {
+        lock.lock();
+        try {
+            // 确认程序是否停止。
+            while (runningFlag) {
+                condition.awaitUninterruptibly();
+            }
+
+            // 返回最终重启标记。
+            return this.restartFlag;
         } finally {
             lock.unlock();
         }
