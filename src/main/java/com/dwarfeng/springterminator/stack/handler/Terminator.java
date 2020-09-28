@@ -15,6 +15,8 @@ public interface Terminator {
 
     /**
      * 退出程序并重启。
+     *
+     * <p> 注意：部分第三方框架不支持重启（如 dubbo），请在开发时慎用该功能。
      */
     void exitAndRestart();
 
@@ -27,6 +29,8 @@ public interface Terminator {
 
     /**
      * 以指定的退出代码退出程序并重启。
+     *
+     * <p> 注意：部分第三方框架不支持重启（如 dubbo），请在开发时慎用该功能。
      *
      * @param exitCode 指定的退出代码。
      */
