@@ -40,7 +40,12 @@
         <xsd:attribute name="post-delay" type="xsd:token" default="-1">
             <xsd:annotation>
                 <xsd:documentation>
-                    <![CDATA[ Defines the delay time before terminating. ]]></xsd:documentation>
+                    <![CDATA[
+                    Defines the delay time after terminating.
+                    Post delay may interrupted when calling thread is managed by spring framework, in this case,
+                    post delay will abort and the delay time will less than configured value.
+                    ]]>
+                </xsd:documentation>
                 <xsd:appinfo>
                     <tool:annotation>
                         <tool:expected-type type="java.lang.Long"/>
