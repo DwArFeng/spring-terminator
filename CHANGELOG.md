@@ -8,7 +8,7 @@
 
 #### Bug修复
 
-- (无)
+- 修复了 Terminator 在 post blocking 时 `getExitCode()` 方法提前返回退出代码的 bug。
 
 #### 功能移除
 

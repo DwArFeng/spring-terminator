@@ -34,6 +34,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
     private boolean runningFlag = true;
     private int exitCode = 0;
     private boolean restartFlag = false;
+    private boolean postBlockFlag = false;
 
     @Override
     public void exit() {
@@ -79,6 +80,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
             }
         }
 
+        this.postBlockFlag = true;
         this.exitCode = exitCode;
         this.restartFlag = restartFlag;
         applicationContext.stop();
@@ -92,6 +94,10 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
             } catch (InterruptedException ignored) {
             }
         }
+
+        // 取消 postBlockFlag 的置位，并对 condition 进行 signalAll 操作。
+        this.postBlockFlag = false;
+        condition.signalAll();
     }
 
     @Override
@@ -99,7 +105,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
         lock.lock();
         try {
             // 确认程序是否停止。
-            while (runningFlag) {
+            while (runningFlag || postBlockFlag) {
                 condition.awaitUninterruptibly();
             }
 
@@ -115,7 +121,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
         lock.lock();
         try {
             // 确认程序是否停止。
-            while (runningFlag) {
+            while (runningFlag || postBlockFlag) {
                 condition.awaitUninterruptibly();
             }
 
