@@ -10,7 +10,7 @@
 
 #### Bug修复
 
-- (无)
+- 修复了 ApplicationUtil 使用含有关闭程序的语句的 Consumer 启动程序时抛出异常的 bug。
 
 #### 功能移除
 

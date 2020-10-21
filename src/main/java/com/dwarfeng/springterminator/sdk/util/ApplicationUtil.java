@@ -63,10 +63,11 @@ public class ApplicationUtil {
             ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);
             ctx.registerShutdownHook();
             ctx.start();
+            // 由于 consumer 中可能包含结束程序的方法，因此 terminator 要提前拿出来。
+            Terminator terminator = ctx.getBean(Terminator.class);
             if (Objects.nonNull(consumer)) {
                 consumer.accept(ctx);
             }
-            Terminator terminator = ctx.getBean(Terminator.class);
             exitCode = terminator.getExitCode();
             restart = terminator.getRestartFlag();
         } while (restart);
