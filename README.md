@@ -8,7 +8,7 @@
    <dependency>
        <groupId>com.dwarfeng</groupId>
        <artifactId>spring-terminator</artifactId>
-       <version>1.0.0.a</version>
+       <version>1.0.7.a</version>
    </dependency>
    ```
 
