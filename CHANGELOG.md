@@ -4,7 +4,9 @@
 
 #### 功能构建
 
-- (无)
+- 改进 Terminator 的阻塞逻辑。
+  - getExitCode 方法只有在 ApplicationContext 完全启动后才会解除阻塞。
+  - 该改动使得程序只有在 ApplicationContext 完全加载后才会退出，避免了潜在的 bug。
 
 #### Bug修复
 

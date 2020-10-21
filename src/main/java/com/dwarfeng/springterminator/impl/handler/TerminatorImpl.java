@@ -6,8 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.lang.NonNull;
 
@@ -21,7 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author DwArFeng
  * @since 1.0.0
  */
-public class TerminatorImpl implements Terminator, ApplicationContextAware, ApplicationListener<ContextClosedEvent> {
+public class TerminatorImpl implements Terminator, ApplicationContextAware, ApplicationListener<ApplicationEvent> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TerminatorImpl.class);
 
@@ -31,6 +33,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
 
     private final Lock lock = new ReentrantLock();
     private final Condition condition = lock.newCondition();
+    private boolean launchingFlag = true;
     private boolean runningFlag = true;
     private int exitCode = 0;
     private boolean restartFlag = false;
@@ -109,7 +112,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
         lock.lock();
         try {
             // 确认程序是否停止。
-            while (runningFlag || postBlockFlag) {
+            while (launchingFlag || runningFlag || postBlockFlag) {
                 condition.awaitUninterruptibly();
             }
 
@@ -145,7 +148,25 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
     }
 
     @Override
-    public void onApplicationEvent(@NonNull ContextClosedEvent event) {
+    public void onApplicationEvent(@NonNull ApplicationEvent event) {
+        if (event instanceof ContextStartedEvent) {
+            handleStarted();
+        } else if (event instanceof ContextClosedEvent) {
+            handleClosed();
+        }
+    }
+
+    private void handleStarted() {
+        lock.lock();
+        try {
+            TerminatorImpl.this.launchingFlag = false;
+            TerminatorImpl.this.condition.signalAll();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void handleClosed() {
         lock.lock();
         try {
             TerminatorImpl.this.runningFlag = false;
