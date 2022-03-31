@@ -22,7 +22,7 @@
         <!-- 集中定义依赖版本号 -->
         <javassist.version>3.23.2-GA</javassist.version>
         <junit.version>4.13.1</junit.version>
-        <spring.version>5.2.3.RELEASE</spring.version>
+        <spring.version>5.3.18</spring.version>
         <log4j2.version>2.13.3</log4j2.version>
         <slf4j.version>1.7.25</slf4j.version>
         <!-- Maven插件版本声明 -->
