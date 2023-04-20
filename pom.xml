@@ -10,7 +10,7 @@
 
     <groupId>com.dwarfeng</groupId>
     <artifactId>spring-terminator</artifactId>
-    <version>1.0.11.a-SNAPSHOT</version>
+    <version>1.0.11.a</version>
 
     <name>spring-terminator</name>
     <url>http://maven.apache.org</url>
