@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.dwarfeng</groupId>
@@ -13,7 +17,7 @@
 
     <properties>
         <!-- 进行工程编码声明 -->
-        <!-- 进行JDK版本声明 -->
+        <!-- 进行 JDK 版本声明 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -25,7 +29,7 @@
         <spring.version>5.3.20</spring.version>
         <log4j2.version>2.17.2</log4j2.version>
         <slf4j.version>1.7.5</slf4j.version>
-        <!-- Maven插件版本声明 -->
+        <!-- Maven 插件版本声明 -->
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
     </properties>
