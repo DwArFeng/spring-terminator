@@ -42,7 +42,7 @@
                 <xsd:documentation>
                     <![CDATA[
                     Defines the delay time after terminating.
-                    Post delay may interrupted when calling thread is managed by spring framework, in this case,
+                    Post delay may be interrupted when calling thread is managed by spring framework, in this case,
                     post delay will abort and the delay time will less than configured value.
                     ]]>
                 </xsd:documentation>

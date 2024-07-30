@@ -51,7 +51,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
 
     @Override
     public void exit(int exitCode) {
-        LOGGER.info("程序退出, exitCode = " + exitCode);
+        LOGGER.info("程序退出, exitCode = {}", exitCode);
 
         lock.lock();
         try {
@@ -63,7 +63,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
 
     @Override
     public void exitAndRestart(int exitCode) {
-        LOGGER.info("程序退出并重启, exitCode = " + exitCode);
+        LOGGER.info("程序退出并重启, exitCode = {}", exitCode);
 
         lock.lock();
         try {
@@ -77,7 +77,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
         // 当程序设置延迟时，进行延时。
         if (this.preDelay > 0) {
             try {
-                LOGGER.info("Terminator设置了前置延时, 等待 " + preDelay + " 毫秒...");
+                LOGGER.info("Terminator设置了前置延时, 等待 {} 毫秒...", preDelay);
                 Thread.sleep(this.preDelay);
             } catch (InterruptedException ignored) {
             }
@@ -93,7 +93,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
         if (this.postDelay > 0) {
             long timeMeasure = -System.currentTimeMillis();
             try {
-                LOGGER.info("Terminator设置了后置延时, 等待 " + postDelay + " 毫秒...");
+                LOGGER.info("Terminator设置了后置延时, 等待 {} 毫秒...", postDelay);
                 Thread.sleep(this.postDelay);
             } catch (InterruptedException e) {
                 timeMeasure += System.currentTimeMillis();
