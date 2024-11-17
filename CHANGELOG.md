@@ -9,7 +9,8 @@
 
 #### Bug修复
 
-- (无)
+- 修复部分测试用例中的错误。
+  - com.dwarfeng.springterminator.impl.handler.TerminatorImplTest。
 
 #### 功能移除
 
