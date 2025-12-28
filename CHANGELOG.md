@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 完善工程类中部分代码方法签名中的 `org.springframework.lang` 注解。
+  - com.dwarfeng.springterminator.node.config.SpringTerminatorDefinitionParser。
+
 - 优化文件格式。
   - 优化 `application-context-*.xml` 文件的格式。
 

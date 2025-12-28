@@ -5,6 +5,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
+import org.springframework.lang.NonNull;
 import org.w3c.dom.Element;
 
 /**
@@ -16,12 +17,14 @@ import org.w3c.dom.Element;
 public class SpringTerminatorDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
     @Override
-    protected String getBeanClassName(Element element) {
+    protected String getBeanClassName(@NonNull Element element) {
         return TerminatorImpl.class.getCanonicalName();
     }
 
     @Override
-    protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
+    protected void doParse(
+            @NonNull Element element, @NonNull ParserContext parserContext, @NonNull BeanDefinitionBuilder builder
+    ) {
         try {
             if (element.hasAttribute("pre-delay")) {
                 builder.addPropertyValue("preDelay", element.getAttribute("pre-delay"));
