@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 完善测试类中部分代码方法签名中的 `org.springframework.lang` 注解。
+  - com.dwarfeng.springterminator.impl.handler.TerminatorImplTest。
+
 - 完善工程类中部分代码方法签名中的 `org.springframework.lang` 注解。
   - com.dwarfeng.springterminator.node.config.SpringTerminatorDefinitionParser。
 
