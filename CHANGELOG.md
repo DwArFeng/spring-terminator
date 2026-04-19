@@ -4,6 +4,14 @@
 
 ### 功能构建
 
+- 重构项目结构。
+  - 与 subgrade 集成，处理器层与 subgrade 对齐。
+  - 与 subgrade 集成，栈异常与 subgrade 对齐。
+
+- 增加依赖。
+  - 增加依赖 `dutil` 以应用其新功能，版本为 `0.4.2.a-beta`。
+  - 增加依赖 `subgrade` 以应用其新功能，版本为 `1.8.2.a`。
+
 - 优化文件格式。
   - 优化 `spring-telqos.xsd` 文件的格式。
 

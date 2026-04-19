@@ -20,10 +20,10 @@
     </xsd:annotation>
 
     <xsd:complexType name="terminatorType">
-        <xsd:attribute name="id" type="xsd:token" default="terminator">
+        <xsd:attribute name="id" type="xsd:token" default="terminateHandler">
             <xsd:annotation>
                 <xsd:documentation>
-                    <![CDATA[ Defines the terminator's bean name. ]]></xsd:documentation>
+                    <![CDATA[ Defines the terminate handler's bean name. ]]></xsd:documentation>
                 <xsd:appinfo>
                     <tool:annotation>
                         <tool:expected-type type="java.lang.String"/>
@@ -63,10 +63,10 @@
 
     <xsd:element name="bean" type="terminatorType">
         <xsd:annotation>
-            <xsd:documentation><![CDATA[ Export terminator config ]]></xsd:documentation>
+            <xsd:documentation><![CDATA[ Export terminate handler config ]]></xsd:documentation>
             <xsd:appinfo>
                 <tool:annotation>
-                    <tool:exports type="com.dwarfeng.springterminator.stack.handler.Terminator"/>
+                    <tool:exports type="com.dwarfeng.springterminator.stack.handler.TerminateHandler"/>
                 </tool:annotation>
             </xsd:appinfo>
         </xsd:annotation>

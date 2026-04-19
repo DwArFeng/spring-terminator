@@ -1,6 +1,9 @@
 package com.dwarfeng.springterminator.impl.handler;
 
-import com.dwarfeng.springterminator.stack.handler.Terminator;
+import com.dwarfeng.springterminator.stack.exception.TerminateException;
+import com.dwarfeng.springterminator.stack.handler.TerminateHandler;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
+import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -18,16 +21,18 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Terminator 的实现。
+ * TerminateHandler 的实现。
  *
  * @author DwArFeng
- * @since 1.0.0
+ * @since 2.0.0
  */
-public class TerminatorImpl implements Terminator, ApplicationContextAware, ApplicationListener<ApplicationEvent> {
+public class TerminateHandlerImpl
+        implements TerminateHandler, ApplicationContextAware, ApplicationListener<ApplicationEvent> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TerminatorImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TerminateHandlerImpl.class);
 
     private AbstractApplicationContext applicationContext;
+    private TerminateException contextException;
     private long preDelay = -1L;
     private long postDelay = -1L;
 
@@ -40,44 +45,55 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
     private boolean postBlockFlag = false;
 
     @Override
-    public void exit() {
+    public void exit() throws TerminateException {
         exit(0);
     }
 
     @Override
-    public void exitAndRestart() {
+    public void exitAndRestart() throws TerminateException {
         exitAndRestart(0);
     }
 
     @Override
-    public void exit(int exitCode) {
+    public void exit(int exitCode) throws TerminateException {
         LOGGER.info("程序退出, exitCode = {}", exitCode);
 
         lock.lock();
         try {
             internalExit(exitCode, false);
+        } catch (Exception e) {
+            throw parseTerminateException(e);
         } finally {
             lock.unlock();
         }
     }
 
     @Override
-    public void exitAndRestart(int exitCode) {
+    public void exitAndRestart(int exitCode) throws TerminateException {
         LOGGER.info("程序退出并重启, exitCode = {}", exitCode);
 
         lock.lock();
         try {
             internalExit(exitCode, true);
+        } catch (Exception e) {
+            throw parseTerminateException(e);
         } finally {
             lock.unlock();
         }
     }
 
-    private void internalExit(int exitCode, boolean restartFlag) {
+    private void internalExit(int exitCode, boolean restartFlag) throws Exception {
+        checkContextAvailable();
+
+        if (postBlockFlag || !runningFlag) {
+            LOGGER.info("终止流程已触发，忽略重复请求, exitCode = {}, restartFlag = {}", this.exitCode, this.restartFlag);
+            return;
+        }
+
         // 当程序设置延迟时，进行延时。
         if (this.preDelay > 0) {
             try {
-                LOGGER.info("Terminator 设置了前置延时, 等待 {} 毫秒...", preDelay);
+                LOGGER.info("TerminateHandler 设置了前置延时, 等待 {} 毫秒...", preDelay);
                 Thread.sleep(this.preDelay);
             } catch (InterruptedException ignored) {
             }
@@ -93,12 +109,15 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
         if (this.postDelay > 0) {
             long timeMeasure = -System.currentTimeMillis();
             try {
-                LOGGER.info("Terminator 设置了后置延时, 等待 {} 毫秒...", postDelay);
+                LOGGER.info("TerminateHandler 设置了后置延时, 等待 {} 毫秒...", postDelay);
                 Thread.sleep(this.postDelay);
             } catch (InterruptedException e) {
                 timeMeasure += System.currentTimeMillis();
-                LOGGER.info("后置延时被中断，当前线程名称为 {}，实际延时时间 {} 毫秒",
-                        Thread.currentThread().getName(), timeMeasure);
+                LOGGER.info(
+                        "后置延时被中断，当前线程名称为 {}，实际延时时间 {} 毫秒",
+                        Thread.currentThread().getName(),
+                        timeMeasure
+                );
             }
         }
 
@@ -108,9 +127,11 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
     }
 
     @Override
-    public int getExitCode() {
+    public int getExitCode() throws TerminateException {
         lock.lock();
         try {
+            checkContextAvailable();
+
             // 确认程序是否停止。
             while (launchingFlag || runningFlag || postBlockFlag) {
                 condition.awaitUninterruptibly();
@@ -124,9 +145,11 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
     }
 
     @Override
-    public boolean getRestartFlag() {
+    public boolean getRestartFlag() throws TerminateException {
         lock.lock();
         try {
+            checkContextAvailable();
+
             // 确认程序是否停止。
             while (runningFlag || postBlockFlag) {
                 condition.awaitUninterruptibly();
@@ -142,8 +165,12 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
         if (!(applicationContext instanceof AbstractApplicationContext)) {
-            throw new IllegalArgumentException("程序目前仅支持 AbstractApplicationContext 的子类");
+            contextException = new TerminateException(
+                    "程序目前仅支持 AbstractApplicationContext 的子类, class = " + applicationContext.getClass()
+            );
+            return;
         }
+        this.contextException = null;
         this.applicationContext = (AbstractApplicationContext) applicationContext;
     }
 
@@ -159,8 +186,8 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
     private void handleStarted() {
         lock.lock();
         try {
-            TerminatorImpl.this.launchingFlag = false;
-            TerminatorImpl.this.condition.signalAll();
+            TerminateHandlerImpl.this.launchingFlag = false;
+            TerminateHandlerImpl.this.condition.signalAll();
         } finally {
             lock.unlock();
         }
@@ -169,11 +196,28 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
     private void handleClosed() {
         lock.lock();
         try {
-            TerminatorImpl.this.runningFlag = false;
-            TerminatorImpl.this.condition.signalAll();
+            TerminateHandlerImpl.this.runningFlag = false;
+            TerminateHandlerImpl.this.condition.signalAll();
         } finally {
             lock.unlock();
         }
+    }
+
+    private void checkContextAvailable() throws TerminateException {
+        if (contextException != null) {
+            throw contextException;
+        }
+        if (applicationContext == null) {
+            throw new TerminateException("程序上下文尚未注入");
+        }
+    }
+
+    private TerminateException parseTerminateException(Exception e) {
+        HandlerException handlerException = HandlerExceptionHelper.parse(e);
+        if (handlerException instanceof TerminateException) {
+            return (TerminateException) handlerException;
+        }
+        return new TerminateException(handlerException);
     }
 
     public long getPreDelay() {

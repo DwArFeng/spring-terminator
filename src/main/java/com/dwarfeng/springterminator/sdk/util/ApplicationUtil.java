@@ -1,6 +1,7 @@
 package com.dwarfeng.springterminator.sdk.util;
 
-import com.dwarfeng.springterminator.stack.handler.Terminator;
+import com.dwarfeng.springterminator.stack.handler.TerminateHandler;
+import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -63,13 +64,17 @@ public class ApplicationUtil {
             ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);
             ctx.registerShutdownHook();
             ctx.start();
-            // 由于 consumer 中可能包含结束程序的方法，因此 terminator 要提前拿出来。
-            Terminator terminator = ctx.getBean(Terminator.class);
+            // 由于 consumer 中可能包含结束程序的方法，因此 terminateHandler 要提前拿出来。
+            TerminateHandler terminateHandler = ctx.getBean(TerminateHandler.class);
             if (Objects.nonNull(consumer)) {
                 consumer.accept(ctx);
             }
-            exitCode = terminator.getExitCode();
-            restart = terminator.getRestartFlag();
+            try {
+                exitCode = terminateHandler.getExitCode();
+                restart = terminateHandler.getRestartFlag();
+            } catch (HandlerException e) {
+                throw new IllegalStateException("获取程序终止状态时发生异常", e);
+            }
         } while (restart);
         System.exit(exitCode);
     }
