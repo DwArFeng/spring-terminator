@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:tool="http://www.springframework.org/schema/tool"
-            xmlns="http://dwarfeng.com/schema/spring-terminator"
-            targetNamespace="http://dwarfeng.com/schema/spring-terminator">
+<xsd:schema
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:tool="http://www.springframework.org/schema/tool"
+        xmlns="http://dwarfeng.com/schema/spring-terminator"
+        targetNamespace="http://dwarfeng.com/schema/spring-terminator"
+>
 
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
-    <xsd:import namespace="http://www.springframework.org/schema/beans"
-                schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"/>
+    <xsd:import
+            namespace="http://www.springframework.org/schema/beans"
+            schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"
+    />
     <xsd:import namespace="http://www.springframework.org/schema/tool"/>
 
     <xsd:annotation>
         <xsd:documentation>
-            <![CDATA[ Namespace support for the spring-terminator services provided by dwarfeng. ]]></xsd:documentation>
+            <![CDATA[ Namespace support for the spring-terminator services provided by dwarfeng. ]]>
+        </xsd:documentation>
     </xsd:annotation>
 
     <xsd:complexType name="terminatorType">
@@ -29,7 +34,8 @@
         <xsd:attribute name="pre-delay" type="xsd:token" default="-1">
             <xsd:annotation>
                 <xsd:documentation>
-                    <![CDATA[ Defines the delay time before terminating. ]]></xsd:documentation>
+                    <![CDATA[ Defines the delay time before terminating. ]]>
+                </xsd:documentation>
                 <xsd:appinfo>
                     <tool:annotation>
                         <tool:expected-type type="java.lang.Long"/>
@@ -65,5 +71,4 @@
             </xsd:appinfo>
         </xsd:annotation>
     </xsd:element>
-
 </xsd:schema>
