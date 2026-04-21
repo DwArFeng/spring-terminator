@@ -77,7 +77,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
         // 当程序设置延迟时，进行延时。
         if (this.preDelay > 0) {
             try {
-                LOGGER.info("Terminator设置了前置延时, 等待 {} 毫秒...", preDelay);
+                LOGGER.info("Terminator 设置了前置延时, 等待 {} 毫秒...", preDelay);
                 Thread.sleep(this.preDelay);
             } catch (InterruptedException ignored) {
             }
@@ -93,7 +93,7 @@ public class TerminatorImpl implements Terminator, ApplicationContextAware, Appl
         if (this.postDelay > 0) {
             long timeMeasure = -System.currentTimeMillis();
             try {
-                LOGGER.info("Terminator设置了后置延时, 等待 {} 毫秒...", postDelay);
+                LOGGER.info("Terminator 设置了后置延时, 等待 {} 毫秒...", postDelay);
                 Thread.sleep(this.postDelay);
             } catch (InterruptedException e) {
                 timeMeasure += System.currentTimeMillis();

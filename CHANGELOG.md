@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- `spring-terminator` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.springterminator.impl.handler.TerminatorImpl。
+  - com.dwarfeng.springterminator.stack.handler.Terminator。
+
 - 依赖升级。
   - 升级 `log4j2` 依赖版本为 `2.25.4` 以规避漏洞。
 
