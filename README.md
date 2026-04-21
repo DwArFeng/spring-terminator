@@ -1,6 +1,6 @@
 # spring-terminator
 
-一款基于Spring框架的优雅的程序终止器。
+一款基于 Spring 框架的优雅的程序终止器。
 
 ---
 
