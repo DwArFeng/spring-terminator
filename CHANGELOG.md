@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 增加示例。
+  - com.dwarfeng.springterminator.node.example.Example。
+
 - 重构项目模块。
   - 新增 `spring-terminator-core` 子模块，并迁移原有代码至该模块。
   - 新增 `spring-terminator-api` 子模块。
@@ -31,7 +34,8 @@
 
 ### 功能移除
 
-- (无)
+- 删除无意义的单元测试。
+  - com.dwarfeng.springterminator.impl.handler.TerminatorImplTest。
 
 ---
 
