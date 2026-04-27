@@ -1,8 +1,8 @@
 package com.dwarfeng.springterminator.impl.handler;
 
 import com.dwarfeng.springterminator.sdk.util.ApplicationUtil;
-import com.dwarfeng.springterminator.stack.exception.TerminateException;
 import com.dwarfeng.springterminator.stack.handler.TerminateHandler;
+import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -44,11 +44,11 @@ public class TerminatorImplTest {
                 try {
                     Thread.sleep(1000);
                     terminateHandler.exit(0);
-                } catch (TerminateException e) {
+                } catch (HandlerException e) {
                     LOGGER.error("异常", e);
                     try {
                         terminateHandler.exit(-1);
-                    } catch (TerminateException ex) {
+                    } catch (HandlerException ex) {
                         LOGGER.error("终止失败", ex);
                     }
                 } catch (Exception e) {

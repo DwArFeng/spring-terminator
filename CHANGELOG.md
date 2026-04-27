@@ -4,6 +4,12 @@
 
 ### 功能构建
 
+- 重构项目配置机制。
+  - 新增 `com.dwarfeng.springterminator.stack.struct.TerminateConfig` 配置类。
+  - `com.dwarfeng.springterminator.impl.handler.TerminateHandlerImpl` 切换为构造器注入。
+  - 优化 `spring-terminator.xsd` 的命名空间模型。
+  - 其余配套逻辑调整。
+
 - 重构项目结构。
   - 与 subgrade 集成，处理器层与 subgrade 对齐。
   - 与 subgrade 集成，栈异常与 subgrade 对齐。

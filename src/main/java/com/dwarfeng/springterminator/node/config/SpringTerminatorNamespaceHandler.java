@@ -12,6 +12,7 @@ public class SpringTerminatorNamespaceHandler extends NamespaceHandlerSupport {
 
     @Override
     public void init() {
-        registerBeanDefinitionParser("bean", new SpringTerminatorDefinitionParser());
+        registerBeanDefinitionParser("config", new SpringTerminatorConfigDefinitionParser());
+        registerBeanDefinitionParser("handler", new SpringTerminatorDefinitionParser());
     }
 }

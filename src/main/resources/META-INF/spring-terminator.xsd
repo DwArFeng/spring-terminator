@@ -1,74 +1,118 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xsd:schema
+        xmlns="http://dwarfeng.com/schema/spring-terminator"
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:tool="http://www.springframework.org/schema/tool"
-        xmlns="http://dwarfeng.com/schema/spring-terminator"
         targetNamespace="http://dwarfeng.com/schema/spring-terminator"
+        elementFormDefault="qualified"
 >
 
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:import
-            namespace="http://www.springframework.org/schema/beans"
-            schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"
+            namespace="http://www.springframework.org/schema/tool"
+            schemaLocation="https://www.springframework.org/schema/tool/spring-tool.xsd"
     />
-    <xsd:import namespace="http://www.springframework.org/schema/tool"/>
 
     <xsd:annotation>
         <xsd:documentation>
-            <![CDATA[ Namespace support for the spring-terminator services provided by dwarfeng. ]]>
+            <![CDATA[DwArFeng spring-terminator 项目的命名空间支持。]]>
         </xsd:documentation>
     </xsd:annotation>
 
-    <xsd:complexType name="terminatorType">
-        <xsd:attribute name="id" type="xsd:token" default="terminateHandler">
-            <xsd:annotation>
-                <xsd:documentation>
-                    <![CDATA[ Defines the terminate handler's bean name. ]]></xsd:documentation>
-                <xsd:appinfo>
-                    <tool:annotation>
-                        <tool:expected-type type="java.lang.String"/>
-                    </tool:annotation>
-                </xsd:appinfo>
-            </xsd:annotation>
-        </xsd:attribute>
-        <xsd:attribute name="pre-delay" type="xsd:token" default="-1">
-            <xsd:annotation>
-                <xsd:documentation>
-                    <![CDATA[ Defines the delay time before terminating. ]]>
-                </xsd:documentation>
-                <xsd:appinfo>
-                    <tool:annotation>
-                        <tool:expected-type type="java.lang.Long"/>
-                    </tool:annotation>
-                </xsd:appinfo>
-            </xsd:annotation>
-        </xsd:attribute>
-        <xsd:attribute name="post-delay" type="xsd:token" default="-1">
-            <xsd:annotation>
-                <xsd:documentation>
-                    <![CDATA[
-                    Defines the delay time after terminating.
-                    Post delay may be interrupted when calling thread is managed by spring framework, in this case,
-                    post delay will abort and the delay time will less than configured value.
-                    ]]>
-                </xsd:documentation>
-                <xsd:appinfo>
-                    <tool:annotation>
-                        <tool:expected-type type="java.lang.Long"/>
-                    </tool:annotation>
-                </xsd:appinfo>
-            </xsd:annotation>
-        </xsd:attribute>
-    </xsd:complexType>
-
-    <xsd:element name="bean" type="terminatorType">
+    <xsd:element name="config">
         <xsd:annotation>
-            <xsd:documentation><![CDATA[ Export terminate handler config ]]></xsd:documentation>
+            <xsd:documentation>
+                <![CDATA[通过该元素配置 TerminateConfig。]]>
+            </xsd:documentation>
+            <xsd:appinfo>
+                <tool:annotation>
+                    <tool:exports type="com.dwarfeng.springterminator.stack.struct.TerminateConfig"/>
+                </tool:annotation>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="config-id" type="xsd:token" default="terminateConfig">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        <![CDATA[TerminateConfig 的 bean id，默认 terminateConfig。]]>
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <tool:annotation>
+                            <tool:expected-type type="java.lang.String"/>
+                        </tool:annotation>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute
+                    name="pre-delay"
+                    type="xsd:string"
+                    default="#{T(com.dwarfeng.springterminator.stack.struct.TerminateConfig$Builder).DEFAULT_PRE_DELAY}"
+            >
+                <xsd:annotation>
+                    <xsd:documentation>
+                        <![CDATA[前置延时，默认 -1。]]>
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <tool:annotation>
+                            <tool:expected-type type="java.lang.Long"/>
+                        </tool:annotation>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute
+                    name="post-delay"
+                    type="xsd:string"
+                    default="#{T(com.dwarfeng.springterminator.stack.struct.TerminateConfig$Builder).DEFAULT_POST_DELAY}"
+            >
+                <xsd:annotation>
+                    <xsd:documentation>
+                        <![CDATA[后置延时，默认 -1。]]>
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <tool:annotation>
+                            <tool:expected-type type="java.lang.Long"/>
+                        </tool:annotation>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="handler">
+        <xsd:annotation>
+            <xsd:documentation>
+                <![CDATA[通过该元素配置 TerminateHandler。]]>
+            </xsd:documentation>
             <xsd:appinfo>
                 <tool:annotation>
                     <tool:exports type="com.dwarfeng.springterminator.stack.handler.TerminateHandler"/>
                 </tool:annotation>
             </xsd:appinfo>
         </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="handler-name" type="xsd:token" default="terminateHandler">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        <![CDATA[TerminateHandler 的 bean 名称，默认 terminateHandler。]]>
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <tool:annotation>
+                            <tool:expected-type type="java.lang.String"/>
+                        </tool:annotation>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="config-ref" type="xsd:string" default="terminateConfig">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        <![CDATA[TerminateConfig bean 引用，默认 terminateConfig。]]>
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <tool:annotation kind="ref">
+                            <tool:expected-type type="com.dwarfeng.springterminator.stack.struct.TerminateConfig"/>
+                        </tool:annotation>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
     </xsd:element>
 </xsd:schema>

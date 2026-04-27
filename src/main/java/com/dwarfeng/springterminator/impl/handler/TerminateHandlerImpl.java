@@ -1,14 +1,12 @@
 package com.dwarfeng.springterminator.impl.handler;
 
+import com.dwarfeng.springterminator.sdk.util.TerminateExceptionHelper;
 import com.dwarfeng.springterminator.stack.exception.TerminateException;
 import com.dwarfeng.springterminator.stack.handler.TerminateHandler;
-import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.springterminator.stack.struct.TerminateConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
@@ -16,6 +14,7 @@ import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.lang.NonNull;
 
+import java.util.Objects;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -26,15 +25,12 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author DwArFeng
  * @since 2.0.0
  */
-public class TerminateHandlerImpl
-        implements TerminateHandler, ApplicationContextAware, ApplicationListener<ApplicationEvent> {
+public class TerminateHandlerImpl implements TerminateHandler, ApplicationListener<ApplicationEvent> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TerminateHandlerImpl.class);
 
-    private AbstractApplicationContext applicationContext;
-    private TerminateException contextException;
-    private long preDelay = -1L;
-    private long postDelay = -1L;
+    private final ApplicationContext ctx;
+    private final TerminateConfig terminateConfig;
 
     private final Lock lock = new ReentrantLock();
     private final Condition condition = lock.newCondition();
@@ -43,6 +39,11 @@ public class TerminateHandlerImpl
     private int exitCode = 0;
     private boolean restartFlag = false;
     private boolean postBlockFlag = false;
+
+    public TerminateHandlerImpl(ApplicationContext ctx, TerminateConfig terminateConfig) {
+        this.ctx = ctx;
+        this.terminateConfig = terminateConfig;
+    }
 
     @Override
     public void exit() throws TerminateException {
@@ -62,7 +63,7 @@ public class TerminateHandlerImpl
         try {
             internalExit(exitCode, false);
         } catch (Exception e) {
-            throw parseTerminateException(e);
+            throw TerminateExceptionHelper.parse(e);
         } finally {
             lock.unlock();
         }
@@ -76,14 +77,14 @@ public class TerminateHandlerImpl
         try {
             internalExit(exitCode, true);
         } catch (Exception e) {
-            throw parseTerminateException(e);
+            throw TerminateExceptionHelper.parse(e);
         } finally {
             lock.unlock();
         }
     }
 
     private void internalExit(int exitCode, boolean restartFlag) throws Exception {
-        checkContextAvailable();
+        checkApplicationContextAvailable();
 
         if (postBlockFlag || !runningFlag) {
             LOGGER.info("终止流程已触发，忽略重复请求, exitCode = {}, restartFlag = {}", this.exitCode, this.restartFlag);
@@ -91,10 +92,11 @@ public class TerminateHandlerImpl
         }
 
         // 当程序设置延迟时，进行延时。
-        if (this.preDelay > 0) {
+        long preDelay = terminateConfig.getPreDelay();
+        if (preDelay > 0) {
             try {
                 LOGGER.info("TerminateHandler 设置了前置延时, 等待 {} 毫秒...", preDelay);
-                Thread.sleep(this.preDelay);
+                Thread.sleep(preDelay);
             } catch (InterruptedException ignored) {
             }
         }
@@ -102,15 +104,16 @@ public class TerminateHandlerImpl
         this.postBlockFlag = true;
         this.exitCode = exitCode;
         this.restartFlag = restartFlag;
-        applicationContext.stop();
-        applicationContext.close();
+        ((AbstractApplicationContext) ctx).stop();
+        ((AbstractApplicationContext) ctx).close();
 
         // 当程序设置延迟时，进行延时。
-        if (this.postDelay > 0) {
+        long postDelay = terminateConfig.getPostDelay();
+        if (postDelay > 0) {
             long timeMeasure = -System.currentTimeMillis();
             try {
                 LOGGER.info("TerminateHandler 设置了后置延时, 等待 {} 毫秒...", postDelay);
-                Thread.sleep(this.postDelay);
+                Thread.sleep(postDelay);
             } catch (InterruptedException e) {
                 timeMeasure += System.currentTimeMillis();
                 LOGGER.info(
@@ -130,8 +133,6 @@ public class TerminateHandlerImpl
     public int getExitCode() throws TerminateException {
         lock.lock();
         try {
-            checkContextAvailable();
-
             // 确认程序是否停止。
             while (launchingFlag || runningFlag || postBlockFlag) {
                 condition.awaitUninterruptibly();
@@ -139,6 +140,8 @@ public class TerminateHandlerImpl
 
             // 返回最终的退出代码。
             return this.exitCode;
+        } catch (Exception e) {
+            throw TerminateExceptionHelper.parse(e);
         } finally {
             lock.unlock();
         }
@@ -148,8 +151,6 @@ public class TerminateHandlerImpl
     public boolean getRestartFlag() throws TerminateException {
         lock.lock();
         try {
-            checkContextAvailable();
-
             // 确认程序是否停止。
             while (runningFlag || postBlockFlag) {
                 condition.awaitUninterruptibly();
@@ -157,21 +158,20 @@ public class TerminateHandlerImpl
 
             // 返回最终重启标记。
             return this.restartFlag;
+        } catch (Exception e) {
+            throw TerminateExceptionHelper.parse(e);
         } finally {
             lock.unlock();
         }
     }
 
-    @Override
-    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
-        if (!(applicationContext instanceof AbstractApplicationContext)) {
-            contextException = new TerminateException(
-                    "程序目前仅支持 AbstractApplicationContext 的子类, class = " + applicationContext.getClass()
-            );
-            return;
+    private void checkApplicationContextAvailable() {
+        if (Objects.isNull(ctx)) {
+            throw new IllegalStateException("ctx 为 null");
         }
-        this.contextException = null;
-        this.applicationContext = (AbstractApplicationContext) applicationContext;
+        if (!(ctx instanceof AbstractApplicationContext)) {
+            throw new IllegalStateException("ctx 不是 AbstractApplicationContext 的实例");
+        }
     }
 
     @Override
@@ -201,38 +201,5 @@ public class TerminateHandlerImpl
         } finally {
             lock.unlock();
         }
-    }
-
-    private void checkContextAvailable() throws TerminateException {
-        if (contextException != null) {
-            throw contextException;
-        }
-        if (applicationContext == null) {
-            throw new TerminateException("程序上下文尚未注入");
-        }
-    }
-
-    private TerminateException parseTerminateException(Exception e) {
-        HandlerException handlerException = HandlerExceptionHelper.parse(e);
-        if (handlerException instanceof TerminateException) {
-            return (TerminateException) handlerException;
-        }
-        return new TerminateException(handlerException);
-    }
-
-    public long getPreDelay() {
-        return preDelay;
-    }
-
-    public void setPreDelay(long preDelay) {
-        this.preDelay = preDelay;
-    }
-
-    public long getPostDelay() {
-        return postDelay;
-    }
-
-    public void setPostDelay(long postDelay) {
-        this.postDelay = postDelay;
     }
 }
