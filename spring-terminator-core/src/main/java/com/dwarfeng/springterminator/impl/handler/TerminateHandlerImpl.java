@@ -83,7 +83,7 @@ public class TerminateHandlerImpl implements TerminateHandler, ApplicationListen
         }
     }
 
-    private void internalExit(int exitCode, boolean restartFlag) throws Exception {
+    private void internalExit(int exitCode, boolean restartFlag) {
         checkApplicationContextAvailable();
 
         if (postBlockFlag || !runningFlag) {

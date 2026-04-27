@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 重构项目模块。
+  - 新增 `spring-terminator-core` 子模块，并迁移原有代码至该模块。
+  - 新增 `spring-terminator-api` 子模块。
+
 - 重构项目配置机制。
   - 新增 `com.dwarfeng.springterminator.stack.struct.TerminateConfig` 配置类。
   - `com.dwarfeng.springterminator.impl.handler.TerminateHandlerImpl` 切换为构造器注入。

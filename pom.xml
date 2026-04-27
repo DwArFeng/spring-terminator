@@ -12,6 +12,8 @@
     <artifactId>spring-terminator</artifactId>
     <version>2.0.0.a-SNAPSHOT</version>
 
+    <packaging>pom</packaging>
+
     <name>spring-terminator</name>
     <url>http://maven.apache.org</url>
 
@@ -36,8 +38,6 @@
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
     </properties>
 
-    <!-- 声明资源的坐标 -->
-    <!-- 只定义依赖的版本，并不实际依赖 -->
     <dependencyManagement>
         <dependencies>
             <!-- 单元测试 -->
@@ -107,95 +107,44 @@
                 <artifactId>subgrade-sdk</artifactId>
                 <version>${subgrade.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.dwarfeng</groupId>
+                <artifactId>subgrade-impl</artifactId>
+                <version>${subgrade.version}</version>
+            </dependency>
+            <!-- 程序自身组件 -->
+            <dependency>
+                <groupId>com.dwarfeng</groupId>
+                <artifactId>spring-terminator-core</artifactId>
+                <version>2.0.0.a-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dwarfeng</groupId>
+                <artifactId>spring-terminator-api</artifactId>
+                <version>2.0.0.a-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
-    <dependencies>
-        <!-- 单元测试 -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <!-- 日志处理 -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <!-- Spring -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-        </dependency>
-        <!-- Dutil 组件 -->
-        <dependency>
-            <groupId>com.dwarfeng</groupId>
-            <artifactId>dutil-basic</artifactId>
-        </dependency>
-        <!-- Subgrade 组件 -->
-        <dependency>
-            <groupId>com.dwarfeng</groupId>
-            <artifactId>subgrade-stack</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.dwarfeng</groupId>
-            <artifactId>subgrade-sdk</artifactId>
-        </dependency>
-    </dependencies>
-
     <build>
-        <!-- 插件列表 -->
-        <plugins>
-            <!-- Maven 测试插件，用于跳过测试。 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-            <!-- Maven 部署插件，用于部署依赖至上行仓库。 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>${maven-deploy-plugin.version}</version>
-            </plugin>
-        </plugins>
-        <!-- 配置资源目录 -->
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-        <!-- 配置测试资源目录 -->
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-        </testResources>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
+
+    <modules>
+        <module>spring-terminator-api</module>
+        <module>spring-terminator-core</module>
+    </modules>
 </project>

@@ -71,9 +71,11 @@ buildNumber.properties
 #################
 ## Logger Files
 #################
-/logs/
+/spring-terminator-core/logs/
+/spring-terminator-api/logs/
 
 #################
 ## Configuration Files
 #################
-/conf/
+/spring-terminator-core/conf/
+/spring-terminator-api/conf/
