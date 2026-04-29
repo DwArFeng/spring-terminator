@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 新增 QoS 服务。
+  - com.dwarfeng.springterminator.stack.service.TerminateQosService。
+
 - 增加示例。
   - com.dwarfeng.springterminator.node.example.Example。
 

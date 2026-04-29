@@ -14,5 +14,6 @@ public class SpringTerminatorNamespaceHandler extends NamespaceHandlerSupport {
     public void init() {
         registerBeanDefinitionParser("config", new SpringTerminatorConfigDefinitionParser());
         registerBeanDefinitionParser("handler", new SpringTerminatorDefinitionParser());
+        registerBeanDefinitionParser("qos", new SpringTerminatorQosDefinitionParser());
     }
 }

@@ -11,4 +11,5 @@
 
     <terminator:config pre-delay="1000"/>
     <terminator:handler/>
+    <terminator:qos/>
 </beans>
