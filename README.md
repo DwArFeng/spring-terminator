@@ -6,7 +6,7 @@
 
 ## 特性
 
-1. Spring 自定义命名空间支持（terminator:bean）。
+1. Spring 自定义命名空间支持（terminator:config、terminator:handler、terminator:qos）。
 2. 前置延时支持（pre-delay）。
 3. 后置延时支持（post-delay）。
 4. 退出代码支持（exit code）。
@@ -14,11 +14,12 @@
 6. 优雅关闭 Spring 应用上下文。
 7. 阻塞式获取退出代码和重启标识。
 
-运行 `src/test` 下的测试类以观察全部特性。
+运行 `src/test` 下的示例类以观察全部特性。
 
-| 测试类名                                                          | 说明     |
-|---------------------------------------------------------------|--------|
-| com.dwarfeng.springterminator.impl.handler.TerminatorImplTest | 基本功能测试 |
+| 测试类名                                                                | 说明              |
+|---------------------------------------------------------------------|-----------------|
+| com.dwarfeng.springterminator.node.example.Example                  | 核心模块命名空间与退出行为示例 |
+| com.dwarfeng.springterminator.api.integration.example.TelqosExample | API 集成模块示例      |
 
 ## 文档
 
@@ -65,12 +66,22 @@ wiki 为项目的开发人员为本项目编写的详细文档，包含不同语
 
 3. 项目引入。
 
-   在项目的 pom.xml 中添加如下依赖：
+   根据使用场景，在项目的 pom.xml 中添加如下依赖：
 
    ```xml
    <dependency>
        <groupId>com.dwarfeng</groupId>
-       <artifactId>spring-terminator</artifactId>
+       <artifactId>spring-terminator-core</artifactId>
+       <version>${spring-terminator.version}</version>
+   </dependency>
+   ```
+
+   如果需要与 spring-telqos 集成能力，再额外添加：
+
+   ```xml
+   <dependency>
+       <groupId>com.dwarfeng</groupId>
+       <artifactId>spring-terminator-api</artifactId>
        <version>${spring-terminator.version}</version>
    </dependency>
    ```
@@ -79,7 +90,7 @@ wiki 为项目的开发人员为本项目编写的详细文档，包含不同语
 
 ## 如何使用
 
-本项目仅支持单实例模式。本项目的目的是优雅停止 Spring 实例，一个 ApplicationContext 中，自然只需要一个 Terminator 实例。
+本项目仅支持单实例模式。本项目的目的是优雅停止 Spring 实例，一个 ApplicationContext 中，自然只需要一个 TerminateHandler 实例。
 
 1. 在 Spring 中添加如下配置。
 
@@ -94,8 +105,10 @@ wiki 为项目的开发人员为本项目编写的详细文档，包含不同语
            http://dwarfeng.com/schema/spring-terminator
            http://dwarfeng.com/schema/spring-terminator/spring-terminator.xsd"
    >
-   
-       <terminator:bean pre-delay="1000" post-delay="500"/>
+
+       <terminator:config pre-delay="1000" post-delay="500"/>
+       <terminator:handler/>
+       <terminator:qos/>
    </beans>
    ```
 
@@ -135,25 +148,29 @@ wiki 为项目的开发人员为本项目编写的详细文档，包含不同语
    }
    ```
 
-3. 在 bean 中注入 `Terminator` 对象，随时随地，优雅的关闭程序。
+3. 在 bean 中注入 `TerminateHandler` 对象，随时随地，优雅地关闭程序。
 
    ```java
    @Component
    public class ProgramKiller {
-   
+
        @Autowired
-       private Terminator terminator;
-   
+       private TerminateHandler terminateHandler;
+
        public void exit() {
-           terminator.exit(0);
+           terminateHandler.exit();
        }
-   
+
        public void exitWithCode(int exitCode) {
-           terminator.exit(exitCode);
+           terminateHandler.exit(exitCode);
        }
-   
+
        public void exitAndRestart() {
-           terminator.exitAndRestart(0);
+           terminateHandler.exitAndRestart();
+       }
+
+       public void exitAndRestartWithCode(int exitCode) {
+           terminateHandler.exitAndRestart(exitCode);
        }
    }
    ```
