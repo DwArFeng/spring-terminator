@@ -21,7 +21,7 @@ public class SpringTerminatorConfigDefinitionParser implements BeanDefinitionPar
 
     @Override
     public BeanDefinition parse(Element element, @Nonnull ParserContext parserContext) {
-        String configName = BeanDefinitionParserUtil.mayResolvePlaceholder(
+        String configName = (String) BeanDefinitionParserUtil.mayResolveSpel(
                 parserContext, element.getAttribute("config-name")
         );
 

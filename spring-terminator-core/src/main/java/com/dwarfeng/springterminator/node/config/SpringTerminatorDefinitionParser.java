@@ -23,10 +23,10 @@ public class SpringTerminatorDefinitionParser implements BeanDefinitionParser {
 
     @Override
     public BeanDefinition parse(Element element, @Nonnull ParserContext parserContext) {
-        String handlerName = BeanDefinitionParserUtil.mayResolvePlaceholder(
+        String handlerName = (String) BeanDefinitionParserUtil.mayResolveSpel(
                 parserContext, element.getAttribute("handler-name")
         );
-        String configRef = BeanDefinitionParserUtil.mayResolvePlaceholder(
+        String configRef = (String) BeanDefinitionParserUtil.mayResolveSpel(
                 parserContext, element.getAttribute("config-ref")
         );
 

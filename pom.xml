@@ -31,6 +31,7 @@
         <spring.version>5.3.39</spring.version>
         <log4j2.version>2.25.4</log4j2.version>
         <slf4j.version>1.7.36</slf4j.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <dutil.version>0.4.2.a-beta</dutil.version>
         <subgrade.version>1.8.2.a</subgrade.version>
         <!-- Maven 插件版本声明 -->
@@ -62,6 +63,12 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
+            </dependency>
+            <!-- Apache 工具组件 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
             <!-- Spring -->
             <dependency>

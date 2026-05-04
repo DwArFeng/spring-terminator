@@ -4,6 +4,11 @@
 
 ### 功能构建
 
+- 优化 xsd 配置项解析机制。
+  - 将更多的 xsd 配置常量定义在 `com.dwarfeng.springterminator.sdk.util.Constants` 中。
+  - 调整 `META-INF/spring-terminator.xsd` 中的默认值，使用 SpEL 表达式引用 `Constants` 中的常量。
+  - 在 `com.dwarfeng.springterminator.sdk.util.BeanDefinitionParserUtil` 中增加必要的工具方法。
+
 - 优化 xsd 配置项名称。
   - 将 `terminator:config:config-id` 配置项更名为 `terminator:config:config-name`。
   - 将 `terminator:qos:handler-name` 配置项更名为 `terminator:qos:handler-ref`。
@@ -29,6 +34,7 @@
   - 与 subgrade 集成，栈异常与 subgrade 对齐。
 
 - 增加依赖。
+  - 增加依赖 `commons-lang3` 以应用其新功能，版本为 `3.18.0`。
   - 增加依赖 `dutil` 以应用其新功能，版本为 `0.4.2.a-beta`。
   - 增加依赖 `subgrade` 以应用其新功能，版本为 `1.8.2.a`。
 

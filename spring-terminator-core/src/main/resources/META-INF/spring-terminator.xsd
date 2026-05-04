@@ -30,7 +30,11 @@
             </xsd:appinfo>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute name="config-name" type="xsd:token" default="terminateConfig">
+            <xsd:attribute
+                    name="config-name"
+                    type="xsd:token"
+                    default="#{T(com.dwarfeng.springterminator.sdk.util.Constants).XSD_DEFAULT_TERMINATE_CONFIG_NAME}"
+            >
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[TerminateConfig 的 bean 名称，默认为 terminateConfig。]]>
@@ -89,7 +93,11 @@
             </xsd:appinfo>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute name="handler-name" type="xsd:token" default="terminateHandler">
+            <xsd:attribute
+                    name="handler-name"
+                    type="xsd:token"
+                    default="#{T(com.dwarfeng.springterminator.sdk.util.Constants).XSD_DEFAULT_TERMINATE_HANDLER_NAME}"
+            >
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[TerminateHandler bean 名称，默认为 terminateHandler。]]>
@@ -101,7 +109,11 @@
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute name="config-ref" type="xsd:string" default="terminateConfig">
+            <xsd:attribute
+                    name="config-ref"
+                    type="xsd:string"
+                    default="#{T(com.dwarfeng.springterminator.sdk.util.Constants).XSD_DEFAULT_TERMINATE_CONFIG_NAME}"
+            >
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[TerminateConfig bean 引用，默认为 terminateConfig。]]>
@@ -128,7 +140,11 @@
             </xsd:appinfo>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute name="service-name" type="xsd:token" default="terminatorQosService">
+            <xsd:attribute
+                    name="service-name"
+                    type="xsd:token"
+                    default="#{T(com.dwarfeng.springterminator.sdk.util.Constants).XSD_DEFAULT_TERMINATOR_QOS_SERVICE_NAME}"
+            >
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[TerminateQosService 的 bean 名称，默认为 terminatorQosService。]]>
@@ -140,7 +156,11 @@
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute name="handler-ref" type="xsd:token" default="terminateHandler">
+            <xsd:attribute
+                    name="handler-ref"
+                    type="xsd:token"
+                    default="#{T(com.dwarfeng.springterminator.sdk.util.Constants).XSD_DEFAULT_TERMINATE_HANDLER_NAME}"
+            >
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[TerminateHandler 的 bean 引用，默认为 terminateHandler。]]>
@@ -152,7 +172,11 @@
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute name="sem-ref" type="xsd:string" default="mapServiceExceptionMapper">
+            <xsd:attribute
+                    name="sem-ref"
+                    type="xsd:string"
+                    default="#{T(com.dwarfeng.springterminator.sdk.util.Constants).XSD_DEFAULT_SERVICE_EXCEPTION_MAPPER_NAME}"
+            >
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[ServiceExceptionMapper bean 引用，默认为 mapServiceExceptionMapper。]]>
