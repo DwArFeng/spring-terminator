@@ -30,10 +30,10 @@
             </xsd:appinfo>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute name="config-id" type="xsd:token" default="terminateConfig">
+            <xsd:attribute name="config-name" type="xsd:token" default="terminateConfig">
                 <xsd:annotation>
                     <xsd:documentation>
-                        <![CDATA[TerminateConfig 的 bean id，默认 terminateConfig。]]>
+                        <![CDATA[TerminateConfig 的 bean 名称，默认为 terminateConfig。]]>
                     </xsd:documentation>
                     <xsd:appinfo>
                         <tool:annotation>
@@ -92,10 +92,10 @@
             <xsd:attribute name="handler-name" type="xsd:token" default="terminateHandler">
                 <xsd:annotation>
                     <xsd:documentation>
-                        <![CDATA[TerminateHandler 的 bean 名称，默认 terminateHandler。]]>
+                        <![CDATA[TerminateHandler bean 名称，默认为 terminateHandler。]]>
                     </xsd:documentation>
                     <xsd:appinfo>
-                        <tool:annotation>
+                        <tool:annotation kind="ref">
                             <tool:expected-type type="java.lang.String"/>
                         </tool:annotation>
                     </xsd:appinfo>
@@ -104,7 +104,7 @@
             <xsd:attribute name="config-ref" type="xsd:string" default="terminateConfig">
                 <xsd:annotation>
                     <xsd:documentation>
-                        <![CDATA[TerminateConfig bean 引用，默认 terminateConfig。]]>
+                        <![CDATA[TerminateConfig bean 引用，默认为 terminateConfig。]]>
                     </xsd:documentation>
                     <xsd:appinfo>
                         <tool:annotation kind="ref">
@@ -131,7 +131,7 @@
             <xsd:attribute name="service-name" type="xsd:token" default="terminatorQosService">
                 <xsd:annotation>
                     <xsd:documentation>
-                        <![CDATA[TerminateQosService 的 bean id，默认 terminatorQosService。]]>
+                        <![CDATA[TerminateQosService 的 bean 名称，默认为 terminatorQosService。]]>
                     </xsd:documentation>
                     <xsd:appinfo>
                         <tool:annotation>
@@ -140,10 +140,10 @@
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute name="handler-name" type="xsd:token" default="terminateHandler">
+            <xsd:attribute name="handler-ref" type="xsd:token" default="terminateHandler">
                 <xsd:annotation>
                     <xsd:documentation>
-                        <![CDATA[TerminateHandler 的 bean 名称，默认 terminateHandler。]]>
+                        <![CDATA[TerminateHandler 的 bean 引用，默认为 terminateHandler。]]>
                     </xsd:documentation>
                     <xsd:appinfo>
                         <tool:annotation>
@@ -155,7 +155,7 @@
             <xsd:attribute name="sem-ref" type="xsd:string" default="mapServiceExceptionMapper">
                 <xsd:annotation>
                     <xsd:documentation>
-                        <![CDATA[ServiceExceptionMapper bean 引用，默认 mapServiceExceptionMapper。]]>
+                        <![CDATA[ServiceExceptionMapper bean 引用，默认为 mapServiceExceptionMapper。]]>
                     </xsd:documentation>
                     <xsd:appinfo>
                         <tool:annotation kind="ref">

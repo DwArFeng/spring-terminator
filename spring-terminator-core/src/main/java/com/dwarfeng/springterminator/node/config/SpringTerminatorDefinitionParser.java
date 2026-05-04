@@ -9,7 +9,6 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
-import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
 import javax.annotation.Nonnull;
@@ -22,9 +21,6 @@ import javax.annotation.Nonnull;
  */
 public class SpringTerminatorDefinitionParser implements BeanDefinitionParser {
 
-    private static final String STANDARD_HANDLER_NAME = "terminateHandler";
-    private static final String STANDARD_CONFIG_REF = "terminateConfig";
-
     @Override
     public BeanDefinition parse(Element element, @Nonnull ParserContext parserContext) {
         String handlerName = BeanDefinitionParserUtil.mayResolvePlaceholder(
@@ -33,12 +29,7 @@ public class SpringTerminatorDefinitionParser implements BeanDefinitionParser {
         String configRef = BeanDefinitionParserUtil.mayResolvePlaceholder(
                 parserContext, element.getAttribute("config-ref")
         );
-        if (!StringUtils.hasText(handlerName)) {
-            handlerName = STANDARD_HANDLER_NAME;
-        }
-        if (!StringUtils.hasText(configRef)) {
-            configRef = STANDARD_CONFIG_REF;
-        }
+
         BeanDefinitionParserUtil.makeSureBeanNameNotDuplicated(parserContext, handlerName);
 
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(TerminateHandlerImpl.class);

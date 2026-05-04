@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 优化 xsd 配置项名称。
+  - 将 `terminator:config:config-id` 配置项更名为 `terminator:config:config-name`。
+  - 将 `terminator:qos:handler-name` 配置项更名为 `terminator:qos:handler-ref`。
+
 - 新增 QoS 服务。
   - com.dwarfeng.springterminator.stack.service.TerminateQosService。
 

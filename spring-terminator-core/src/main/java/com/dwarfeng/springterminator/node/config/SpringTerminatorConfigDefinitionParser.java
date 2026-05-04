@@ -19,17 +19,13 @@ import javax.annotation.Nonnull;
  */
 public class SpringTerminatorConfigDefinitionParser implements BeanDefinitionParser {
 
-    private static final String STANDARD_CONFIG_ID = "terminateConfig";
-
     @Override
     public BeanDefinition parse(Element element, @Nonnull ParserContext parserContext) {
-        String configId = BeanDefinitionParserUtil.mayResolvePlaceholder(
-                parserContext, element.getAttribute("config-id")
+        String configName = BeanDefinitionParserUtil.mayResolvePlaceholder(
+                parserContext, element.getAttribute("config-name")
         );
-        if (!StringUtils.hasText(configId)) {
-            configId = STANDARD_CONFIG_ID;
-        }
-        BeanDefinitionParserUtil.makeSureBeanNameNotDuplicated(parserContext, configId);
+
+        BeanDefinitionParserUtil.makeSureBeanNameNotDuplicated(parserContext, configName);
 
         Object preDelay = resolveDelayAttribute(
                 element, parserContext, "pre-delay", TerminateConfig.Builder.DEFAULT_PRE_DELAY
@@ -44,7 +40,7 @@ public class SpringTerminatorConfigDefinitionParser implements BeanDefinitionPar
         configBuilderBeanDefinition.setScope(BeanDefinition.SCOPE_SINGLETON);
         configBuilderBeanDefinition.setLazyInit(false);
         String configBuilderBeanName = BeanDefinitionParserUtil.parseAvailableBeanName(
-                parserContext, configId + "Builder"
+                parserContext, configName + "Builder"
         );
         parserContext.getRegistry().registerBeanDefinition(configBuilderBeanName, configBuilderBeanDefinition);
 
@@ -53,7 +49,7 @@ public class SpringTerminatorConfigDefinitionParser implements BeanDefinitionPar
         configBeanDefinition.setFactoryMethodName("build");
         configBeanDefinition.setScope(BeanDefinition.SCOPE_SINGLETON);
         configBeanDefinition.setLazyInit(false);
-        parserContext.getRegistry().registerBeanDefinition(configId, configBeanDefinition);
+        parserContext.getRegistry().registerBeanDefinition(configName, configBeanDefinition);
 
         return null;
     }

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
-import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
 import javax.annotation.Nonnull;
@@ -22,31 +21,17 @@ import javax.annotation.Nonnull;
  */
 public class SpringTerminatorQosDefinitionParser implements BeanDefinitionParser {
 
-    private static final String STANDARD_HANDLER_NAME = "terminateHandler";
-    private static final String STANDARD_SERVICE_NAME = "terminatorQosService";
-    private static final String STANDARD_SEM_REF = "mapServiceExceptionMapper";
-
     @Override
     public BeanDefinition parse(Element element, @Nonnull ParserContext parserContext) {
-        String handlerName = BeanDefinitionParserUtil.mayResolvePlaceholder(
-                parserContext, element.getAttribute("handler-name")
-        );
         String serviceName = BeanDefinitionParserUtil.mayResolvePlaceholder(
                 parserContext, element.getAttribute("service-name")
+        );
+        String handlerRef = BeanDefinitionParserUtil.mayResolvePlaceholder(
+                parserContext, element.getAttribute("handler-ref")
         );
         String semRef = BeanDefinitionParserUtil.mayResolvePlaceholder(
                 parserContext, element.getAttribute("sem-ref")
         );
-
-        if (!StringUtils.hasText(handlerName)) {
-            handlerName = STANDARD_HANDLER_NAME;
-        }
-        if (!StringUtils.hasText(serviceName)) {
-            serviceName = STANDARD_SERVICE_NAME;
-        }
-        if (!StringUtils.hasText(semRef)) {
-            semRef = STANDARD_SEM_REF;
-        }
 
         BeanDefinitionParserUtil.makeSureBeanNameNotDuplicated(parserContext, serviceName);
 
@@ -55,7 +40,7 @@ public class SpringTerminatorQosDefinitionParser implements BeanDefinitionParser
         );
         qosServiceBuilder.getRawBeanDefinition().setAutowireMode(AbstractBeanDefinition.AUTOWIRE_CONSTRUCTOR);
         ConstructorArgumentValues constructorArgumentValues = new ConstructorArgumentValues();
-        constructorArgumentValues.addIndexedArgumentValue(0, new RuntimeBeanReference(handlerName));
+        constructorArgumentValues.addIndexedArgumentValue(0, new RuntimeBeanReference(handlerRef));
         constructorArgumentValues.addIndexedArgumentValue(1, new RuntimeBeanReference(semRef));
         qosServiceBuilder.getRawBeanDefinition().setConstructorArgumentValues(constructorArgumentValues);
         qosServiceBuilder.setScope(BeanDefinition.SCOPE_SINGLETON);
