@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh-CN/UsageGuide.md。
+
 - `spring-terminator-api` 子模块配置文件优化。
   - telqos/connection.properties。
 

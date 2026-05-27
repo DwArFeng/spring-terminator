@@ -10,4 +10,8 @@
 
 ## 项目打包、安装、使用
 
+- [Usage Guide](./UsageGuide.md) - 使用指南，详细介绍如何配置框架与使用终止能力。
+
+## 项目打包、安装、使用
+
 - [Install by Source Code](./InstallBySourceCode.md) - 通过源码安装本项目。
