@@ -33,8 +33,8 @@
         <slf4j.version>1.7.36</slf4j.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
         <dutil.version>0.4.2.a-beta</dutil.version>
-        <subgrade.version>1.8.2.a</subgrade.version>
-        <spring-telqos.version>2.0.0.a</spring-telqos.version>
+        <subgrade.version>1.8.3.a</subgrade.version>
+        <spring-telqos.version>2.0.1.a</spring-telqos.version>
         <!-- Maven 插件版本声明 -->
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
