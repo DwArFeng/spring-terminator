@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh-CN/UseWithMaven.md。
+
 - 依赖升级。
   - 升级 `spring-telqos` 依赖版本为 `2.0.2.a` 以规避漏洞。
 
