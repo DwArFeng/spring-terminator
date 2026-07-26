@@ -1,6 +1,6 @@
 package com.dwarfeng.springterminator.stack.struct;
 
-import com.dwarfeng.dutil.basic.prog.Buildable;
+import com.dwarfeng.dutil.basic.stack.builder.Buildable;
 import com.dwarfeng.springterminator.stack.util.TerminateConfigUtil;
 
 /**
@@ -9,6 +9,8 @@ import com.dwarfeng.springterminator.stack.util.TerminateConfigUtil;
  * @author DwArFeng
  * @since 2.0.0
  */
+// 该类为带有参数校验逻辑的配置类，不宜改写为 Record。
+@SuppressWarnings("ClassCanBeRecord")
 public final class TerminateConfig {
 
     /**

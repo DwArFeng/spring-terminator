@@ -77,11 +77,11 @@ public class ShutdownCommand extends CliCommand {
     protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
         list.add(Option.builder(COMMAND_SUB_OPTION_EXIT_CODE).optionalArg(true).type(Number.class).hasArg(true)
-                .argName("exit-code").desc("退出代码").build());
+                .argName("exit-code").desc("退出代码").get());
         list.add(Option.builder(COMMAND_SUB_OPTION_COMMENT).optionalArg(true).type(String.class).hasArg(true)
-                .argName("comment").desc("备注").build());
-        list.add(Option.builder(COMMAND_OPTION_SHUTDOWN).optionalArg(true).desc("退出程序").build());
-        list.add(Option.builder(COMMAND_OPTION_RESTART).optionalArg(true).desc("重启程序").build());
+                .argName("comment").desc("备注").get());
+        list.add(Option.builder(COMMAND_OPTION_SHUTDOWN).optionalArg(true).desc("退出程序").get());
+        list.add(Option.builder(COMMAND_OPTION_RESTART).optionalArg(true).desc("重启程序").get());
         return list;
     }
 
@@ -102,7 +102,7 @@ public class ShutdownCommand extends CliCommand {
             exitCode = ((Number) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_EXIT_CODE)).intValue();
         }
         if (cmd.hasOption(COMMAND_SUB_OPTION_COMMENT)) {
-            comment = (String) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_COMMENT);
+            comment = cmd.getParsedOptionValue(COMMAND_SUB_OPTION_COMMENT);
         }
         if (cmd.hasOption(COMMAND_OPTION_RESTART)) {
             restartFlag = true;

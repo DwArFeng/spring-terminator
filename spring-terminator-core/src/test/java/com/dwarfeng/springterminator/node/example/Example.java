@@ -1,8 +1,8 @@
 package com.dwarfeng.springterminator.node.example;
 
-import com.dwarfeng.dutil.basic.io.CT;
+import com.dwarfeng.dutil.basic.sdk.io.CT;
 import com.dwarfeng.springterminator.stack.handler.TerminateHandler;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Scanner;
@@ -15,9 +15,9 @@ import java.util.Scanner;
  */
 public class Example {
 
-    public static void main(String[] args) {
+    static void main() {
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-                "classpath:spring/application-context*.xml"
+                "classpath:com/dwarfeng/springterminator/node/spring/application-context*.xml"
         );
         ctx.registerShutdownHook();
         ctx.start();

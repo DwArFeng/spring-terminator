@@ -1,6 +1,8 @@
 package com.dwarfeng.springterminator.stack.exception;
 
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 终止处理器异常。
@@ -13,6 +15,7 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class TerminateException extends HandlerException {
 
+    @Serial
     private static final long serialVersionUID = -3150743759511570757L;
 
     public TerminateException() {

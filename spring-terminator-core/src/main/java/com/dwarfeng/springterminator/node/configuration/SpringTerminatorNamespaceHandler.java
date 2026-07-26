@@ -1,0 +1,19 @@
+package com.dwarfeng.springterminator.node.configuration;
+
+import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
+
+/**
+ * 终结者命名空间处理器。
+ *
+ * @author DwArFeng
+ * @since 1.0.0
+ */
+public class SpringTerminatorNamespaceHandler extends NamespaceHandlerSupport {
+
+    @Override
+    public void init() {
+        registerBeanDefinitionParser("config", new SpringTerminatorConfigDefinitionParser());
+        registerBeanDefinitionParser("handler", new SpringTerminatorDefinitionParser());
+        registerBeanDefinitionParser("qos", new SpringTerminatorQosDefinitionParser());
+    }
+}

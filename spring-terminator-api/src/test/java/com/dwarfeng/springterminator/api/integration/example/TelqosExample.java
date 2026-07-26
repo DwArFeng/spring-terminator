@@ -1,6 +1,6 @@
 package com.dwarfeng.springterminator.api.integration.example;
 
-import com.dwarfeng.dutil.basic.io.CT;
+import com.dwarfeng.dutil.basic.sdk.io.CT;
 import com.dwarfeng.springterminator.stack.handler.TerminateHandler;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -12,7 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class TelqosExample {
 
-    public static void main(String[] args) throws Exception {
+    static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
                 "classpath:spring/application-context*.xml"
         );

@@ -4,6 +4,7 @@ import com.dwarfeng.springterminator.sdk.util.TerminateExceptionHelper;
 import com.dwarfeng.springterminator.stack.exception.TerminateException;
 import com.dwarfeng.springterminator.stack.handler.TerminateHandler;
 import com.dwarfeng.springterminator.stack.struct.TerminateConfig;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -12,7 +13,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.lang.NonNull;
 
 import java.util.Objects;
 import java.util.concurrent.locks.Condition;
@@ -175,7 +175,7 @@ public class TerminateHandlerImpl implements TerminateHandler, ApplicationListen
     }
 
     @Override
-    public void onApplicationEvent(@NonNull ApplicationEvent event) {
+    public void onApplicationEvent(@NotNull ApplicationEvent event) {
         if (event instanceof ContextStartedEvent) {
             handleStarted();
         } else if (event instanceof ContextClosedEvent) {

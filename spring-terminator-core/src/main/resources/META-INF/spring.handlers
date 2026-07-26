@@ -1,1 +1,1 @@
-http\://dwarfeng.com/schema/spring-terminator=com.dwarfeng.springterminator.node.config.SpringTerminatorNamespaceHandler
+http\://dwarfeng.com/schema/spring-terminator=com.dwarfeng.springterminator.node.configuration.SpringTerminatorNamespaceHandler
