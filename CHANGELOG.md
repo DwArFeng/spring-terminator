@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 优化部分示例的控制台输出方法。
+  - com.dwarfeng.springterminator.api.integration.example.TelqosExample。
+  - com.dwarfeng.springterminator.node.example.Example。
+
 - 依赖升级。
   - 升级 `subgrade` 依赖版本为 `1.8.4.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `2.0.3.a` 以规避漏洞。

@@ -1,5 +1,6 @@
 package com.dwarfeng.springterminator.node.example;
 
+import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.springterminator.stack.handler.TerminateHandler;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -26,28 +27,28 @@ public class Example {
         Scanner scanner = new Scanner(System.in);
 
         // 显示欢迎信息并等待开发者确认。
-        System.out.println("开发者您好!");
-        System.out.println("这是一个示例, 用于演示 spring-terminator 的终止能力");
-        System.out.println("您可以在本示例中选择不同的终止模式, 观察退出代码与重启标记");
+        CT.trace("开发者您好!");
+        CT.trace("这是一个示例, 用于演示 spring-terminator 的终止能力");
+        CT.trace("您可以在本示例中选择不同的终止模式, 观察退出代码与重启标记");
         System.out.print("请按回车键开始示例...");
         scanner.nextLine();
 
         // 1. 展示可选的终止模式。
-        System.out.println();
-        System.out.println("1. 请选择终止模式...");
-        System.out.println("1) 调用 exit(0)");
-        System.out.println("2) 调用 exit(1)");
-        System.out.println("3) 调用 exitAndRestart(0)");
-        System.out.println("4) 调用 exitAndRestart(1)");
-        System.out.println("请输入选项序号, 不填默认为 1...");
+        CT.trace("");
+        CT.trace("1. 请选择终止模式...");
+        CT.trace("1) 调用 exit(0)");
+        CT.trace("2) 调用 exit(1)");
+        CT.trace("3) 调用 exitAndRestart(0)");
+        CT.trace("4) 调用 exitAndRestart(1)");
+        CT.trace("请输入选项序号, 不填默认为 1...");
         String mode = scanner.nextLine();
         if (mode == null || mode.trim().isEmpty()) {
             mode = "1";
         }
 
         // 2. 根据选项触发终止动作。
-        System.out.println();
-        System.out.println("2. 触发终止动作...");
+        CT.trace("");
+        CT.trace("2. 触发终止动作...");
         try {
             switch (mode) {
                 case "1":
@@ -63,7 +64,7 @@ public class Example {
                     terminateHandler.exitAndRestart(1);
                     break;
                 default:
-                    System.out.println("未知选项, 默认执行 exit(0)...");
+                    CT.trace("未知选项, 默认执行 exit(0)...");
                     terminateHandler.exit(0);
                     break;
             }
@@ -80,10 +81,10 @@ public class Example {
         } catch (HandlerException e) {
             throw new IllegalStateException("读取终止状态时发生异常", e);
         }
-        System.out.println("程序终止流程已执行完毕");
-        System.out.println("exitCode = " + exitCode);
-        System.out.println("restartFlag = " + restartFlag);
-        System.out.println("示例演示完毕, 感谢您测试与使用!");
+        CT.trace("程序终止流程已执行完毕");
+        CT.trace("exitCode = " + exitCode);
+        CT.trace("restartFlag = " + restartFlag);
+        CT.trace("示例演示完毕, 感谢您测试与使用!");
 
         System.exit(exitCode);
     }
