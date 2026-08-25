@@ -4,6 +4,13 @@
 
 ### 功能构建
 
+- 更新 README.md。
+
+- 项目文档升级。
+  - docs/wiki/zh-CN/Introduction.md。
+  - docs/wiki/zh-CN/UsageGuide.md。
+  - docs/wiki/zh-CN/VersionBlacklist.md。
+
 - 优化部分示例的控制台输出方法。
   - com.dwarfeng.springterminator.api.integration.example.TelqosExample。
   - com.dwarfeng.springterminator.node.example.Example。

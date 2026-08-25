@@ -89,7 +89,6 @@ spring-terminator 是一款基于 Spring 框架的程序终止器，它提供了
 
     <terminator:config/>
     <terminator:handler/>
-    <terminator:qos/>
 </beans>
 ```
 
@@ -109,7 +108,6 @@ spring-terminator 是一款基于 Spring 框架的程序终止器，它提供了
 
     <terminator:config pre-delay="1000" post-delay="500"/>
     <terminator:handler/>
-    <terminator:qos/>
 </beans>
 ```
 

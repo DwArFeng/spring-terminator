@@ -16,10 +16,10 @@
 
 运行 `src/test` 下的示例类以观察全部特性。
 
-| 测试类名                                                                | 说明              |
-|---------------------------------------------------------------------|-----------------|
+| 测试类名                                                            | 说明                           |
+|---------------------------------------------------------------------|--------------------------------|
 | com.dwarfeng.springterminator.node.example.Example                  | 核心模块命名空间与退出行为示例 |
-| com.dwarfeng.springterminator.api.integration.example.TelqosExample | API 集成模块示例      |
+| com.dwarfeng.springterminator.api.integration.example.TelqosExample | API 集成模块示例               |
 
 ## 文档
 
@@ -36,9 +36,9 @@ wiki 为项目的开发人员为本项目编写的详细文档，包含不同语
 
 该项目针对 Spring 框架进行了测试，测试结果如下：
 
-| Spring 版本    | 测试结果 |
-|--------------|------|
-| Spring 5.3.x | 通过   |
+| Spring 版本  | 测试结果 |
+|--------------|----------|
+| Spring 5.3.x | 通过     |
 
 ## 安装说明
 
@@ -108,7 +108,6 @@ wiki 为项目的开发人员为本项目编写的详细文档，包含不同语
 
        <terminator:config pre-delay="1000" post-delay="500"/>
        <terminator:handler/>
-       <terminator:qos/>
    </beans>
    ```
 
