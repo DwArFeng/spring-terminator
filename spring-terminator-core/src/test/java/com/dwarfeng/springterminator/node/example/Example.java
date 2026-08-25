@@ -85,8 +85,6 @@ public class Example {
         System.out.println("restartFlag = " + restartFlag);
         System.out.println("示例演示完毕, 感谢您测试与使用!");
 
-        ctx.stop();
-        ctx.close();
         System.exit(exitCode);
     }
 }

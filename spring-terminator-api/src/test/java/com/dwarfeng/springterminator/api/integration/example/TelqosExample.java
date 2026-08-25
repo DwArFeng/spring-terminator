@@ -35,8 +35,6 @@ public class TelqosExample {
         System.out.println("本示例不演示重启功能, 将会直接使用 0 作为退出代码退出程序");
         System.out.println("示例演示完毕, 感谢您测试与使用!");
 
-        ctx.stop();
-        ctx.close();
         System.exit(exitCode);
     }
 }

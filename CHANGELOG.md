@@ -9,7 +9,9 @@
 
 ### Bug 修复
 
-- (无)
+- 修复部分示例中应用上下文重复关闭的 bug。
+  - com.dwarfeng.springterminator.api.integration.example.TelqosExample。
+  - com.dwarfeng.springterminator.node.example.Example。
 
 ### 功能移除
 
