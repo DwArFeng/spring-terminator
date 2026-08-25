@@ -119,7 +119,7 @@ spring-terminator 是一款基于 Spring 框架的程序终止器，它提供了
 package com.example.terminator;
 
 import com.dwarfeng.springterminator.stack.handler.TerminateHandler;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -4,6 +4,12 @@
 
 ### 功能构建
 
+- 更新 README.md。
+
+- 项目文档升级。
+  - docs/wiki/zh-CN/Introduction.md。
+  - docs/wiki/zh-CN/UsageGuide.md。
+
 - 升级 JDK 版本至 25。
 
 ### Bug 修复
